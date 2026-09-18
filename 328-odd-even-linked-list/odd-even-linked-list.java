@@ -7,7 +7,37 @@
  *     ListNode(int val) { this.val = val; }
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
- */
+ */ 
+ //Brute
+ 
+class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        ArrayList<Integer> arr=new ArrayList <>();
+        ListNode temp=head;
+        if(head==null || head.next==null) return head;
+        while(temp!=null && temp.next!=null){
+            arr.add(temp.val);
+            temp=temp.next.next;
+        }
+        if(temp!=null) arr.add(temp.val);
+        temp=head.next;
+        while(temp!=null && temp.next!=null){
+            arr.add(temp.val);
+            temp=temp.next.next;
+        }
+         if(temp!=null) arr.add(temp.val);
+        temp=head;
+        int index = 0;
+        while (temp != null) {
+            temp.val = arr.get(index);
+            index++;
+            temp = temp.next;
+        }
+       return head;
+    }
+}
+
+//Optimal
 class Solution {
     public ListNode oddEvenList(ListNode head) {
         if(head==null || head.next==  null) return head;
