@@ -9,6 +9,28 @@
  *     }
  * }
  */
+
+//1st approach
+
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        HashMap <ListNode,Integer>ht=new HashMap<>();
+        ListNode temp=head;
+        
+        while(temp!=null){
+            if(ht.containsKey(temp)) return true;
+            else{
+                ht.put(temp,1);
+            }
+            temp=temp.next;
+        }
+        return false;
+    }
+}
+
+
+//optimal approach
+
 public class Solution {
     public boolean hasCycle(ListNode head) {
         HashMap <ListNode,Integer>ht=new HashMap<>();
