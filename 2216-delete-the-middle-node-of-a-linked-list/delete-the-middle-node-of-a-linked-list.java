@@ -38,15 +38,21 @@ class Solution {
 //optimal
 class Solution {
     public ListNode deleteMiddle(ListNode head) {
-        ListNode fast=head;
-        ListNode slow=head;
-        if(head==null || head.next==null) return null;
-        while(fast.next.next != null && fast.next.next.next != null){
-            fast=fast.next.next;
-            slow=slow.next;
-
+        // Base case: if 0 or 1 node, returning null is correct
+        if (head == null || head.next == null) return null;
+        
+        // Start fast two steps ahead so slow stops right before the middle
+        ListNode slow = head;
+        ListNode fast = head.next.next;
+        
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
         }
-    slow.next=slow.next.next;
-    return head;
+        
+        // slow is now exactly before the middle node
+        slow.next = slow.next.next;
+        return head;
     }
 }
+
