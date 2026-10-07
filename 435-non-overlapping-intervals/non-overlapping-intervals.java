@@ -1,29 +1,27 @@
 class Solution {
     public int eraseOverlapIntervals(int[][] intervals) {
-        int cnt=1;
-        int n=intervals.length;
-        
+    
+        int n = intervals.length;
+        if (n <= 1) return 0; // If 0 or 1 interval, 0 removals are needed
        
-        Integer[] pos = new Integer[n];
-        for (int i = 0; i < n; i++) {
-            pos[i] = i;
-        }
-        Comparator<Integer>comp=new Comparator<Integer>(){
-            public int compare(Integer i,Integer j){
-                 return Integer.compare(intervals[i][1], intervals[j][1]);
-
-            }
-        };
-        Arrays.sort(pos,comp);
+        // 1. Sort the 2D array directly by the end times (index 1)
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));
         
-        int endtime=intervals[pos[0]][1];
-        for(int i=1;i<intervals.length;i++){
-            int ind=pos[i];
-            if(intervals[ind][0]>=endtime){
+        int cnt = 1; // Tracks how many intervals we CAN KEEP
+        int endtime = intervals[0][1]; // The earliest end time after sorting
+        
+        // 2. Iterate through the sorted intervals starting from index 1
+        for (int i = 1; i < n; i++) {
+            // If the current interval starts after or when the previous ends, keep it
+            if (intervals[i][0] >= endtime) {
                 cnt++;
-                endtime=intervals[ind][1];
+                endtime = intervals[i][1];
             }
         }
-        return n-cnt;
+        
+        // 3. Return the number of intervals to REMOVE
+        return n - cnt; 
     }
 }
+
+ 
