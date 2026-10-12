@@ -1,23 +1,18 @@
 class Solution {
     public int maxScore(int[] cardPoints, int k) {
-        int n = cardPoints.length;
-        int currentScore = 0;
-
-        // Step 1: Take all k cards from the beginning
-        for (int i = 0; i < k; i++) {
-            currentScore += cardPoints[i];
+        int lsum=0,rsum=0,maxsum=0;
+        for(int i=0;i<k;i++){
+            lsum+=cardPoints[i];
         }
-
-        int maxScore = currentScore;
-
-        // Step 2: Move the window backward. 
-        // Swap cards from the front with cards from the back one by one.
-        for (int i = 0; i < k; i++) {
-            currentScore -= cardPoints[k - 1 - i];   // Remove from front
-            currentScore += cardPoints[n - 1 - i];   // Add from back
-            maxScore = Math.max(maxScore, currentScore);
+        maxsum=lsum;
+        int n=cardPoints.length;
+       int rindex=n-1;
+         for (int i = k - 1; i >= 0; i--) {
+            lsum-=cardPoints[i];
+            rsum+=cardPoints[rindex];
+            rindex--;
+            maxsum=Math.max(maxsum,lsum+rsum);
         }
-
-        return maxScore;
+        return maxsum;
     }
 }
