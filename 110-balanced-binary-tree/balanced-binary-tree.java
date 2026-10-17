@@ -15,21 +15,22 @@
  */
 class Solution {
     public boolean isBalanced(TreeNode root) {
+        // The boss just calls the worker. 
+        // If the worker returns -1, it means SOME node failed.
+        return check(root) != -1;
+    }
+
+    int check(TreeNode root) {
+        if (root == null) return 0;
         
-   if(root==null) return true;
-        int lh=check(root.left);
-        int rh=check(root.right);
-        if(lh==-1|| rh==-1) return false;
-        if(Math.abs(lh-rh)>1) return false;
-        return true;
-	}
-      int check(TreeNode root){
-         if(root==null) return 0;
-         int lh=check(root.left);
-         if (lh == -1) return -1;
-        int rh=check(root.right);
-         if (rh == -1) return -1;
-          if (Math.abs(lh - rh) > 1) return -1;
-        return 1+Math.max(lh,rh);
+        int lh = check(root.left);
+        if (lh == -1) return -1;
+        
+        int rh = check(root.right);
+        if (rh == -1) return -1;
+        
+        if (Math.abs(lh - rh) > 1) return -1;
+        
+        return 1 + Math.max(lh, rh);
     }
 }
