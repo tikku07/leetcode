@@ -1,42 +1,58 @@
 
 
 class MinStack {
-    Stack<pair> st = new Stack<>();
+    // 1. Change the Stack to hold Long to prevent math overflow
+    Stack<Long> st = new Stack<>();
+    long mini; 
 
     public MinStack() {
+        // Safe placeholder, though it will be overwritten on the first push
+        mini = Long.MAX_VALUE; 
     }
-
-    public void push(int value) {
+    
+    public void push(int val) {
+        long value = (long) val; // Cast incoming int to long
+        
         if (st.isEmpty()) {
-            st.push(new pair(value, value));
+            st.push(value);
+            mini = value;
         } else {
-            st.push(new pair(value,
-                Math.min(value, st.peek().second)));
+            if (value >= mini) { 
+                st.push(value);
+            } else {
+                // Formula to store an encrypted, smaller value
+                st.push(2 * value - mini); 
+                mini = value; // Update global minimum
+            }
         }
     }
-
+    
     public void pop() {
-        st.pop();
+        if (st.isEmpty()) return;
+        
+        long x = st.pop();
+        // If x is smaller than mini, it means x was an encrypted value
+        if (x < mini) {
+            mini = 2 * mini - x; // Restore the previous minimum
+        }
     }
-
+    
     public int top() {
-        return st.peek().first;
+        if (st.isEmpty()) return -1;
+        
+        long topElement = st.peek();
+        // If the top element is encrypted, the actual value is 'mini'
+        if (topElement < mini) {
+            return (int) mini;
+        }
+        return (int) topElement;
     }
-
+    
     public int getMin() {
-        return st.peek().second;
+        return (int) mini;
     }
 }
 
-class pair {
-    int first;
-    int second;
-
-    pair(int first, int second) {
-        this.first = first;
-        this.second = second;
-    }
-}
 
 /**
  * Your MinStack object will be instantiated and called as such:
